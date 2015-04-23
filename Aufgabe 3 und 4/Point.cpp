@@ -16,7 +16,11 @@ Die Klasse Point die das geometrische Objekt Punkt darstellt
 ---------------------
 */
 
+#pragma once
 #include "Ponit.hpp"
+#include <string>
+#include <sstream>
+#include <iostream>
 
 // Standart Konstruktor
 Point::Point() :x(0), y(0)
@@ -25,6 +29,12 @@ Point::Point() :x(0), y(0)
 
 Point::Point(double posX, double posY) : x(posX), y(posY)
 {
+}
+
+
+// Konvertierungskonstruktor, konvertiert einen String zu einem netten Punkt.
+Point::Point(string str){
+	istringstream(str) >> this;
 }
 
 // Destruktor
@@ -39,7 +49,7 @@ void Point::setX(double posX)
 }
 
 // // Methode um die X-Koordinade vom Punkt abzufragen.
-double Point::getX()
+double Point::getX() const
 {
 	return this->x;
 }
@@ -51,7 +61,7 @@ void Point::setY(double posY)
 }
 
 // Methode um die Y-Koordinade vom Punkt abzufragen.
-double Point::getY()
+double Point::getY() const
 {
 	return this->y;
 }
@@ -65,10 +75,26 @@ void Point::move(double dx, double dy)
 }
 
 // Methode um die Koordinaten des Punktes auszugeben.
-void Point::print(bool newLine)
+void Point::print(bool newLine) const
 {
 	if (newLine== true)
 		cout << "(" << this->x << ", " << this->y << ")"<< endl;
 	else
 		cout << "(" << this->x << ", " << this->y << ")";
+}
+
+string Point::toString() const {
+	return ostream << print(false);
+}
+
+
+// Operator >> weist einem Punkt Koordinaten über einen String zu.
+	
+	// Hinweis: Übergabe des Strings muss in der Form: (" (1.1, 2.2) ist ein Punkt.") als isstream (InputStringStream erfolgen)
+	
+	int xStart = (int)str.find("(") +1 ;
+	int xEnde = (int)str.find(",") - 1;
+	int yStart = (int)str.find(",") +2;
+	int yEnde = (int)str.find(")") -1;
+
 }

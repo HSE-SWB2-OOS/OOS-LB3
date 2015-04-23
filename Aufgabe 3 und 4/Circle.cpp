@@ -15,7 +15,11 @@ Die Klasse Circle die das geometrische Objekt Kreis darstellt
 ---------------------
 */
 
+#pragma once
 #include "Circle.hpp"
+#include <string>
+#include <iostream>
+#include <sstream>
 
 // Standart Konstruktor
 Circle::Circle()
@@ -27,6 +31,21 @@ Circle::Circle(Point pos)
 {
 	this->centre = pos;
 	this->radius = 0;
+}
+
+Circle::Circle(string str){						
+	int startX = (int)str.find("(") + 1;
+	int endeX=(int)str.find(",") -1;
+	int startY=(int)str.find(",") +1;
+	int endeY=(int)str.find(")") -1;
+	int startR=(int)str.find(")") +3;
+	int endeR=(int)str.find(">") -1;
+
+	this->setRadius(stod(str.substr(startR, endeR)));
+	Point tempPoint;
+	tempPoint.setX = stod(str.substr(startX, endeX));
+	tempPoint.setY = stod(str.substr(startY, endeY));
+	this->setCentre(tempPoint);
 }
 
 // Destruktor
@@ -41,7 +60,7 @@ void Circle::setCentre(Point pos)
 }
 
 // Methode um den Mittelpunkt von dem Kreis abzufragen.
-Point Circle::getCentre()
+Point Circle::getCentre() const
 {
 	return this->centre;
 }
@@ -53,7 +72,7 @@ void Circle::setRadius(double r)
 }
 
 // Methode um den Radius von dem Kreis abzufragen.
-double Circle::getRadius()
+double Circle::getRadius() const
 {
 	return this->radius;
 }
@@ -66,7 +85,7 @@ void Circle::move(double dx, double dy)
 }
 
 // Methode um den Mittelpuntes und den Radius des Kreises auszugeben.
-void Circle::print(bool newLine)
+void Circle::print(bool newLine) const
 {
 	cout << "<";
 
@@ -82,4 +101,12 @@ void Circle::print(bool newLine)
 		this->centre.print(false);
 		cout << "," << this->radius << ">";
 	}
+
 }
+
+// Methode die einen String mit dem Mittelpunkt und dem Radius zurückliefert.
+string  toString() {
+	ostringstream output;
+	output << this->centre.print(false) << "," << this->radius << ">";
+	return output.str();
+	}

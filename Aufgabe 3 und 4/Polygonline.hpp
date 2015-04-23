@@ -25,15 +25,18 @@ class Polygonline
 public:
 	Polygonline();
 	Polygonline(Point pPos);
+	Polygonline(string);
 	~Polygonline();
 
 	void createNewHead(Point pPos);
-	void print();
+	void print() const;
 	Polygonline & addPoint(Point pPos);
 	void appendPolygonline(Polygonline & additionalLine);
 	void move(double dx, double dy);
 
-	PlgElement & getList();
+	PlgElement & getList() const;
+
+	string toString() const;
 
 private:
 	PlgElement *endNode;

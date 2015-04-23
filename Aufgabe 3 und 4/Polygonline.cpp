@@ -15,7 +15,9 @@ Die Klasse Polygonline die eien Linienzug mit einer verkettenten Liste darstellt
 ---------------------
 */
 
+#pragma once
 #include "Polygonline.hpp" 
+#include <string>
 
 // Default Konstruktor
 Polygonline::Polygonline()
@@ -25,6 +27,11 @@ Polygonline::Polygonline()
 Polygonline::Polygonline(Point pPos)
 {
 	createNewHead(pPos);
+}
+
+Polygonline::Polygonline(string str){
+
+	
 }
 
 // Destruktor
@@ -56,7 +63,7 @@ void Polygonline::createNewHead(Point pPos)
 }
 
 // Ausgabe der Linie
-void Polygonline::print()
+void Polygonline::print() const
 {
 	PlgElement *temp = head;
 	cout << "|";
@@ -124,4 +131,8 @@ void Polygonline::move(double dx, double dy)
 PlgElement & Polygonline:: getList()
 {
 	return *this->endNode;
+}
+
+string PlgElement::toString() const {
+	return ostream << this->print();
 }

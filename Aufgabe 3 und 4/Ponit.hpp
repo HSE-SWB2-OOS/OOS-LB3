@@ -26,15 +26,19 @@ class Point
 public:
 	Point();
 	Point(double posX, double posY);
+	Point(string);
 	~Point();
 
 	void setX(double posX);
-	double getX();
+	double getX() const;
 	void setY(double posY);
-	double getY();
+	double getY() const;
 
 	void move(double dx, double dy);
-	void print(bool newLine = true);
+	void print(bool newLine = true) const;
+	string toString() const;
+
+	friend Point & operator>>(Point& , string&);
 
 private:
 	double x;

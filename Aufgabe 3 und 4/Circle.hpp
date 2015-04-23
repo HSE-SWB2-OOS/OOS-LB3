@@ -24,15 +24,18 @@ class Circle
 public:
 	Circle();
 	Circle(Point pos);
+	Circle(string);								// Legt aus einem String im Format ("<(5.5, 6.6), 10.1>") einen Kreis an.
 	~Circle();
 
 	void setCentre(Point pos);
-	Point getCentre();
+	Point getCentre() const;
 	void setRadius(double r);
-	double getRadius();
+	double getRadius() const;
 
 	void move(double dx, double dy);
-	void print(bool newLine = true);
+	void print(bool newLine = true) const;
+
+	string toString();							// Erzeugt eine Ausgabe in einem string outputstream 
 
 private:
 	Point centre;
