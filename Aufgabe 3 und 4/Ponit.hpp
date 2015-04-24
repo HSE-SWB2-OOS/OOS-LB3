@@ -3,7 +3,7 @@ Erstersteller: Matthias Geckeler
 E-Mail: matthias.geckeler@stud.hs-esslinge.de
 
 Datum: 15.04.2015
-Version: 1.1
+Version: 1.2
 Zeitaufwand: 0,25h
 
 Aenderungshistorie:
@@ -38,7 +38,7 @@ public:
 	void print(bool newLine = true) const;
 	string toString() const;
 
-	friend Point & operator>>(Point& , string&);
+	 friend void operator>>(Point, istringstream);
 
 private:
 	double x;

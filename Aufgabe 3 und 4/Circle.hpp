@@ -3,12 +3,13 @@ Erstersteller: Matthias Geckeler
 E-Mail: matthias.geckeler@stud.hs-esslinge.de
 
 Datum: 15.04.2015
-Version: 1.0
+Version: 1.1
 Zeitaufwand: 0,25h
 
 Aenderungshistorie:
 -------------------
 Aenderungsgrund  durchgefuehrte Aenderung  Autor  Datum
+Methode toString und Konvertierungskonstruktor hinzu. Die Methode Print greift nun auf die Methode toString zu. Tommel 24.4.15
 -------------------------------------------------------
 Programmbeschreibung:
 Die Header Datei für die Klasse Circle die das geometrische Objekt für Kreis darstellt.
@@ -35,7 +36,7 @@ public:
 	void move(double dx, double dy);
 	void print(bool newLine = true) const;
 
-	string toString();							// Erzeugt eine Ausgabe in einem string outputstream 
+	string toString()const;							// Erzeugt eine Ausgabe in einem string outputstream 
 
 private:
 	Point centre;

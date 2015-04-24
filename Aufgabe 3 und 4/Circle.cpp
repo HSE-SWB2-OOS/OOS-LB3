@@ -3,12 +3,13 @@ Erstersteller: Matthias Geckeler
 E-Mail: matthias.geckeler@stud.hs-esslinge.de
 
 Datum: 15.04.2015
-Version: 1.0
+Version: 1.1
 Zeitaufwand: 0,5h
 
 Aenderungshistorie:
 -------------------
 Aenderungsgrund  durchgefuehrte Aenderung  Autor  Datum
+Methode toString und Konvertierungskonstruktor hinzu. Die Methode Print greift nun auf die Methode toString zu. Tommel 24.4.15
 -------------------------------------------------------
 Programmbeschreibung:
 Die Klasse Circle die das geometrische Objekt Kreis darstellt
@@ -20,6 +21,7 @@ Die Klasse Circle die das geometrische Objekt Kreis darstellt
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <ostream>
 
 // Standart Konstruktor
 Circle::Circle()
@@ -43,8 +45,8 @@ Circle::Circle(string str){
 
 	this->setRadius(stod(str.substr(startR, endeR)));
 	Point tempPoint;
-	tempPoint.setX = stod(str.substr(startX, endeX));
-	tempPoint.setY = stod(str.substr(startY, endeY));
+	tempPoint.setX(stod(str.substr(startX, endeX)));
+	tempPoint.setY(stod(str.substr(startY, endeY)));
 	this->setCentre(tempPoint);
 }
 
@@ -92,21 +94,19 @@ void Circle::print(bool newLine) const
 	if (newLine == true)
 	{
 		// Audgabe der Koordinaten des Mittelpunks ohne NewLine
-		this->centre.print(false);
-		cout << "," << this->radius << ">" << endl;
+		cout << this->toString() << endl;
 	}
 		
 	else
 	{
-		this->centre.print(false);
-		cout << "," << this->radius << ">";
+		cout << this->toString() << endl;
 	}
 
 }
 
 // Methode die einen String mit dem Mittelpunkt und dem Radius zurückliefert.
-string  toString() {
+string  Circle::toString() const {
 	ostringstream output;
-	output << this->centre.print(false) << "," << this->radius << ">";
+	output << this->centre.toString() << "," << this->radius << ">";
 	return output.str();
 	}
