@@ -3,13 +3,14 @@ Erstersteller: Matthias Geckeler
 E-Mail: matthias.geckeler@stud.hs-esslinge.de
 
 Datum: 15.04.2015
-Version: 1.1
-Zeitaufwand: 0,25h
+Version: 1.2
+Zeitaufwand: 0,5h
 
 Aenderungshistorie:
 -------------------
-Aenderungsgrund  durchgefuehrte Aenderung  Autor  Datum
-Methode toString und Konvertierungskonstruktor hinzu. Die Methode Print greift nun auf die Methode toString zu. Tommel 24.4.15
+Durchgefuehrte Aenderung | Autor | Datum
+Operator "<<" hinzugefügt | Geckeler | 23.04.15
+Methode toString und Konvertierungskonstruktor hinzu. Die Methode Print greift nun auf die Methode toString zu. | Tommel | 24.04.15
 -------------------------------------------------------
 Programmbeschreibung:
 Die Header Datei für die Klasse Circle die das geometrische Objekt für Kreis darstellt.
@@ -19,12 +20,17 @@ Die Header Datei für die Klasse Circle die das geometrische Objekt für Kreis dar
 #pragma once
 
 #include "Ponit.hpp"
+#include <string>
+#include <iostream>
+#include <sstream>
+#include <ostream>
 
 class Circle
 {
 public:
 	Circle();
 	Circle(Point pos);
+	Circle(Point pos, double radius);
 	Circle(string);								// Legt aus einem String im Format ("<(5.5, 6.6), 10.1>") einen Kreis an.
 	~Circle();
 
@@ -38,6 +44,8 @@ public:
 
 	string toString()const;							// Erzeugt eine Ausgabe in einem string outputstream 
 
+	// Operatoren
+	friend ostream & operator<< (ostream & o, Circle const & circle);
 private:
 	Point centre;
 	double radius;

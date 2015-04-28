@@ -4,12 +4,13 @@ E-Mail: matthias.geckeler@stud.hs-esslinge.de
 
 Datum: 15.04.2015
 Version: 1.2
-Zeitaufwand: 0,25h
+Zeitaufwand: 0,5h
 
 Aenderungshistorie:
 -------------------
-Aenderungsgrund | durchgefuehrte Aenderung | Autor | Datum
-Main von Aufgabe 3.2 fordert weiteren Konstruktor |	Parameter behafteter Konstruktor angelegt | Geckeler | 16.04.15
+Durchgefuehrte Aenderung | Autor | Datum
+Parameter behafteter Konstruktor angelegt | Geckeler | 16.04.15
+Operatoren "+", "++", "--" und "<<" hinzugefügt | Geckeler | 23.04.15
 -------------------------------------------------------
 Programmbeschreibung:
 Die Header Datei für die Klasse Point die das geometrische Objekt Punkt darstellt.
@@ -19,6 +20,11 @@ Die Header Datei für die Klasse Point die das geometrische Objekt Punkt darstell
 #pragma once
 
 #include <iostream>
+#include <string>
+#include <sstream>
+#include <ostream>
+#include "MyString.hpp"
+
 using namespace std;
 
 class Point
@@ -38,10 +44,25 @@ public:
 	void print(bool newLine = true) const;
 	string toString() const;
 
-	 friend void operator>>(Point, istringstream);
+	// Operatoren
+	friend void operator>>(istringstream & iStrStream, Point & pos);
+	friend ostream & operator<< (ostream & o, Point const & pos);
+	Point operator= (Point p);
+	
+	friend Point operator+ (Point p, double offset);
+	friend Point operator+ (double offset, Point p);
+	Point operator+ (Point p);
+	Point operator- (Point p);
+	Point operator- ();
+
+	Point operator++ ();
+	Point operator++ (int);
+	Point operator--();
+	Point operator--(int);
 
 private:
 	double x;
 	double y;
 };
+
 

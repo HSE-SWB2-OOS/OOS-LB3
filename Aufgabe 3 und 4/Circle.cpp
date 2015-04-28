@@ -3,25 +3,21 @@ Erstersteller: Matthias Geckeler
 E-Mail: matthias.geckeler@stud.hs-esslinge.de
 
 Datum: 15.04.2015
-Version: 1.1
-Zeitaufwand: 0,5h
+Version: 1.2
+Zeitaufwand: 0,75h
 
 Aenderungshistorie:
 -------------------
-Aenderungsgrund  durchgefuehrte Aenderung  Autor  Datum
-Methode toString und Konvertierungskonstruktor hinzu. Die Methode Print greift nun auf die Methode toString zu. Tommel 24.4.15
+Durchgefuehrte Aenderung | Autor | Datum
+Operator "<<" hinzugefügt | Geckeler | 23.04.15
+Methode toString und Konvertierungskonstruktor hinzu. Die Methode Print greift nun auf die Methode toString zu. | Tommel | 24.04.15
 -------------------------------------------------------
 Programmbeschreibung:
 Die Klasse Circle die das geometrische Objekt Kreis darstellt
 ---------------------
 */
 
-#pragma once
 #include "Circle.hpp"
-#include <string>
-#include <iostream>
-#include <sstream>
-#include <ostream>
 
 // Standart Konstruktor
 Circle::Circle()
@@ -29,19 +25,27 @@ Circle::Circle()
 	this->radius = 0;
 }
 
+// Konvertirungskonstruktor Point -> Circle
 Circle::Circle(Point pos)
 {
 	this->centre = pos;
 	this->radius = 0;
 }
 
-Circle::Circle(string str){						
+Circle::Circle(Point pos, double radius)
+{
+	this->centre = pos;
+	this->radius = radius;
+}
+
+// Konvertirungskonstruktor String -> Circle
+Circle::Circle(string str){
 	int startX = (int)str.find("(") + 1;
-	int endeX=(int)str.find(",") -1;
-	int startY=(int)str.find(",") +1;
-	int endeY=(int)str.find(")") -1;
-	int startR=(int)str.find(")") +3;
-	int endeR=(int)str.find(">") -1;
+	int endeX = (int)str.find(",") - 1;
+	int startY = (int)str.find(",") + 1;
+	int endeY = (int)str.find(")") - 1;
+	int startR = (int)str.find(")") + 3;
+	int endeR = (int)str.find(">") - 1;
 
 	this->setRadius(stod(str.substr(startR, endeR)));
 	Point tempPoint;
@@ -94,19 +98,29 @@ void Circle::print(bool newLine) const
 	if (newLine == true)
 	{
 		// Audgabe der Koordinaten des Mittelpunks ohne NewLine
+		/*this->centre.print(false);
+		cout << "," << this->radius << ">" << endl;*/
 		cout << this->toString() << endl;
 	}
 		
 	else
 	{
+		/*this->centre.print(false);
+		cout << "," << this->radius << ">";*/
 		cout << this->toString() << endl;
 	}
-
 }
 
-// Methode die einen String mit dem Mittelpunkt und dem Radius zurÃ¼ckliefert.
-string  Circle::toString() const {
+// Methode die einen String mit dem Mittelpunkt und dem Radius zurückliefert.
+string Circle::toString() const 
+{
 	ostringstream output;
 	output << this->centre.toString() << "," << this->radius << ">";
 	return output.str();
-	}
+}
+
+// Operator "<<"
+ostream & operator<< (ostream & o, Circle const & circle)
+{
+	return o << "<" << circle.toString();
+}
