@@ -3,7 +3,7 @@ Erstersteller: Matthias Geckeler
 E-Mail: matthias.geckeler@stud.hs-esslinge.de
 
 Datum: 15.04.2015
-Version: 1.2
+Version: 1.1
 Zeitaufwand: 0,25h
 
 Aenderungshistorie:
@@ -26,22 +26,34 @@ class Point
 public:
 	Point();
 	Point(double posX, double posY);
-	Point(string);
 	~Point();
 
 	void setX(double posX);
-	double getX() const;
+	double getX();
 	void setY(double posY);
-	double getY() const;
+	double getY();
 
 	void move(double dx, double dy);
-	void print(bool newLine = true) const;
-	string toString() const;
+	void print(bool newLine = true);
 
-	 friend void operator>>(Point, istringstream);
+	// Operatoren
+	friend ostream & operator<< (ostream & o, Point & pos);
+	Point operator= (Point p);
+	
+	friend Point operator+ (Point p, double offset);
+	friend Point operator+ (double offset, Point p);
+	Point operator+ (Point p);
+	Point operator- (Point p);
+	Point operator- ();
+
+	Point operator++ ();
+	Point operator++ (int);
+	Point operator--();
+	Point operator--(int);
 
 private:
 	double x;
 	double y;
 };
+
 
