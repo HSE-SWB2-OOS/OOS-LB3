@@ -3,19 +3,26 @@ Erstersteller: Matthias Geckeler
 E-Mail: matthias.geckeler@stud.hs-esslinge.de
 
 Datum: 16.04.2015
-Version: 1.0
+Version: 1.1
 Zeitaufwand: xh
 
 Aenderungshistorie:
 -------------------
 Aenderungsgrund  durchgefuehrte Aenderung  Autor  Datum
+Methode toString hinzu, Sie liefert einen String für die Ausgabe, Methode print ruft jetzt toString auf.
 -------------------------------------------------------
 Programmbeschreibung:
 Die Klasse Polygonline die eien Linienzug mit einer verkettenten Liste darstellt.
 ---------------------
 */
 
+#pragma once
 #include "Polygonline.hpp" 
+#include <string>
+#include <ostream>
+#include <sstream>
+#include "myString.hpp"
+#include "Ponit.hpp"
 
 // Default Konstruktor
 Polygonline::Polygonline()
@@ -27,7 +34,34 @@ Polygonline::Polygonline(Point pPos)
 	createNewHead(pPos);
 }
 
+Polygonline::Polygonline(string str){
+	
+	char checkChar;
+	char pointBegin = '(';
+	char pointEnd = ')';
 
+	str = MyString::trim(str,' ');				
+	istringstream strStream(str);					
+	
+	// Jedes Zeichen durchgehen
+	do
+	{
+		string subStr;							
+		strStream >> checkChar;
+		if (checkChar == pointBegin)			
+		{
+			subStr += checkChar;			
+			do
+			{									
+				strStream >> checkChar;
+				subStr += checkChar;
+			} while (checkChar != pointEnd);
+			
+			Point p(subStr);						
+			this->addPoint(p);				
+		}
+	} while (strStream);
+}
 
 // Destruktor
 Polygonline::~Polygonline()
@@ -42,6 +76,7 @@ Polygonline::~Polygonline()
 			head = endNode;
 		} while (endNode != nullptr);
 
+		delete endNode;
 	}
 }
 
@@ -57,25 +92,29 @@ void Polygonline::createNewHead(Point pPos)
 }
 
 // Ausgabe der Linie
-void Polygonline::print()
+void Polygonline::print() const
 {
-	PlgElement *temp = head;
-	cout << "|";
 
-	
-	if (this->elementCounter > 0)
-	{
-		do
-		{
-			cout << "(" << temp->point.getX() << "," << temp->point.getY() << ")" ;
-			temp = temp->next;
+	cout << this->toString() << endl;
 
-			if (this->elementCounter > 1 && temp != nullptr)
-				cout << "-";
-					
-		} while (temp != nullptr);
-	}
-	cout << "|" << endl;
+
+	//PlgElement *temp = head;
+	//cout << "|";
+
+	//
+	//if (this->elementCounter > 0)
+	//{
+	//	do
+	//	{
+	//		cout << "(" << temp->point.getX() << "," << temp->point.getY() << ")" ;
+	//		temp = temp->next;
+
+	//		if (this->elementCounter > 1 && temp != nullptr)
+	//			cout << "-";
+	//				
+	//	} while (temp != nullptr);
+	//}
+	//cout << "|" << endl;
 }
 
 // Diese Methode fügt einen neuen Punkt zu Linie hinzu.
@@ -98,7 +137,7 @@ Polygonline & Polygonline::addPoint(Point pPos)
 }
 
 // Diese Methode hängt die übergebene Linie an die bestehende Linie hinten an.
-Polygonline & Polygonline::appendPolygonline(Polygonline & additionalLine)
+void Polygonline::appendPolygonline(Polygonline & additionalLine)
 {
 	PlgElement *temp = additionalLine.head;
 
@@ -107,8 +146,7 @@ Polygonline & Polygonline::appendPolygonline(Polygonline & additionalLine)
 		addPoint(temp->point);
 		temp = temp->next;
 	} while (temp != nullptr);
-	
-	return *this;
+		
 }
 
 // Diese Methode verschiebt die Linie um den angegebenen offset.
@@ -123,26 +161,34 @@ void Polygonline::move(double dx, double dy)
 	} while (temp != nullptr);
 }
 
-PlgElement & Polygonline:: getList()
+PlgElement & Polygonline::getList() const
 {
 	return *this->endNode;
 }
 
-// Operator "<<"
-ostream & operator<< (ostream & o, Polygonline & line)
-{
-	// Insert Polygonline.toString von Aufgabe 3
-	return o;
-}
+string Polygonline::toString() const {
+	
+	// Variablen deklaration
+	
+	ostringstream tempstream;
+	PlgElement *temp = head;
+	tempstream << "|";
 
-// Operator "+" um eine Punkt an die Linie hinten anhängen zu können 
-Polygonline & Polygonline::operator+ (Point p)
-{
-	return this->addPoint(p);
-}
 
-// Operator "+" um mehere Linien miteinander zu verbinden (z.B. L1 + L2 + L3 (L2 und L3 werden zu L1 hinzugefügt))
-Polygonline & Polygonline::operator+ (Polygonline & l)
-{
-	return this->appendPolygonline(l);
+	// Start schleife, jeder durchlauf füllt einen Punkt in den Stream
+
+	if (this->elementCounter > 0)
+	{
+		do
+		{
+			tempstream << "(" << temp->point.getX() << "," << temp->point.getY() << ")";
+			temp = temp->next;
+
+			if (this->elementCounter > 1 && temp != nullptr)
+				tempstream << "-";
+
+		} while (temp != nullptr);
+	}
+	return tempstream.str();
+
 }

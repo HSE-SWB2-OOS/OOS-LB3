@@ -3,20 +3,27 @@ Erstersteller: Matthias Geckeler
 E-Mail: matthias.geckeler@stud.hs-esslinge.de
 
 Datum: 15.04.2015
-Version: 1.1
+Version: 1.2
 Zeitaufwand: 0,5h
 
 Aenderungshistorie:
 -------------------
 Aenderungsgrund | durchgefuehrte Aenderung | Autor | Datum
 Main von Aufgabe 3.2 fordert weiteren Konstruktor |	Parameter behafteter Konstruktor angelegt | Geckeler | 16.04.15
+Methode toString, operator >> hinzugef√ºgt, Methode Print nutzt jetzt toString f√ºr seine Ausgabe. | Tommel | 24.4.15
 -------------------------------------------------------
 Programmbeschreibung:
 Die Klasse Point die das geometrische Objekt Punkt darstellt
 ---------------------
 */
 
+#pragma once
 #include "Ponit.hpp"
+#include <string>
+#include <sstream>
+#include <iostream>
+#include <ostream>
+#include "MyString.hpp"
 
 // Standart Konstruktor
 Point::Point() :x(0), y(0)
@@ -25,6 +32,24 @@ Point::Point() :x(0), y(0)
 
 Point::Point(double posX, double posY) : x(posX), y(posY)
 {
+}
+
+
+// Konvertierungskonstruktor, konvertiert einen String zu einem netten Punkt.
+Point::Point(string str){
+	// istringstream(str) >> this;
+
+	// Hinweis: √úbergabe des Strings muss zwischen "(" und ")" mit Punkten durch komma getrennt, als isstream (InputStringStream erfolgen)
+	// Leerzeichen entfernen
+	str = MyString::trim(str, ' ');
+
+	int xStart = (int)str.find("(") + 1;
+	int xEnde = (int)str.find(",") - 1;
+	int yStart = (int)str.find(",") + 1;
+	int yEnde = (int)str.find(")") - 1;
+
+	this->setX(stod(str.substr(xStart, xEnde)));
+	this->setY(stod(str.substr(yStart, yEnde)));
 }
 
 // Destruktor
@@ -39,7 +64,7 @@ void Point::setX(double posX)
 }
 
 // // Methode um die X-Koordinade vom Punkt abzufragen.
-double Point::getX()
+double Point::getX() const
 {
 	return this->x;
 }
@@ -51,7 +76,7 @@ void Point::setY(double posY)
 }
 
 // Methode um die Y-Koordinade vom Punkt abzufragen.
-double Point::getY()
+double Point::getY() const
 {
 	return this->y;
 }
@@ -65,116 +90,35 @@ void Point::move(double dx, double dy)
 }
 
 // Methode um die Koordinaten des Punktes auszugeben.
-void Point::print(bool newLine)
+void Point::print(bool newLine) const
 {
-	if (newLine== true)
-		cout << "(" << this->x << ", " << this->y << ")"<< endl;
+	if (newLine == true)
+		cout << this->toString() << endl;
 	else
-		cout << "(" << this->x << ", " << this->y << ")";
+		cout << this->toString();
 }
 
-// Operator "<<"
-ostream & operator<< (ostream & o, Point & pos)
-{
-	// Inser Point.toString von Aufgabe 3
-	return o;
-}
-
-// Operator "=" um eine Punkt einem anderen zuweisen zu kˆnnen (z.B. P2 = P1)
-Point Point::operator= (Point pos)
-{
-	this->setX(pos.getX());
-	this->setY(pos.getY());
-
-	return *this;
-}
+string Point::toString() const{
+	ostringstream temp;
+	temp << "(" << this->x << ", " << this->y << ")";
+	return temp.str();
+	}
 
 
-// Operator "++" f¸r prefix increment eines Punktes
-Point Point::operator++()
-{
-	double temp = this->getX();
-	temp++;
-	this->setX(temp);
+// Operator >> weist einem Punkt Koordinaten √ºber einen String zu.
+void operator>>(Point pt, istringstream strStream) {    // √Ñndern zu istream -> k√∂nnte das Problem beheben.
 
-	temp = this->getY();
-	temp++;
-	this->setY(temp);
+	string str = strStream.str();
+	// Hinweis: √úbergabe des Strings muss zwischen "(" und ")" mit Punkten durch komma getrennt, als isstream (InputStringStream erfolgen)
 
-	return *this;
-}
+	// Leerzeichen entfernen
+	str = MyString::trim(str, ' ');
 
-// Operator "++" f¸r postfix increment eines Punktes
-Point Point::operator++(int i)
-{
-	Point temp = *this;
-	++*this;
+	int xStart = (int)str.find("(") + 1;
+	int xEnde = (int)str.find(",") - 1;
+	int yStart = (int)str.find(",") + 1;
+	int yEnde = (int)str.find(")") - 1;
 
-	return temp;
-}
-
-// Operator "++" f¸r prefix decrement eines Punktes
-Point Point::operator--()
-{
-	double temp = this->getX();
-	temp--;
-	this->setX(temp);
-
-	temp = this->getY();
-	temp--;
-	this->setY(temp);
-
-	return *this;
-}
-
-// Operator "++" f¸r postfix decrement eines Punktes
-Point Point::operator--(int i)
-{
-	Point temp = *this;
-	--*this;
-
-	return temp;
-}
-
-// Operator "+" um Pumkte addieren zu kˆnnen (z.B. P1 + P2 + P3)
-Point Point::operator+(Point p)
-{
-	p.setX(p.getX() + p.getX());
-	p.setY(p.getY() + p.getY());
-
-	return p;
-}
-
-// Operator "+" um auf einen Punkt einen Offset aufrechenen zu kˆnnen
-Point operator+ (Point p, double offset)
-{
-	p.setX(p.getX() + offset);
-	p.setY(p.getY() + offset);
-
-	return p;
-}
-
-// Operator "+" um auf einen Punkt einen Offset aufrechenen zu kˆnnen
-Point operator+ (double offset, Point p)
-{
-	p = p + offset;
-	return p;
-}
-
-// Operator "-" um Punkte subtrahieren zu kˆnnen (z.B. P1 - P2 - P3)
-Point Point::operator-(Point p)
-{
-	p.setX(p.getX() - p.getX());
-	p.setY(p.getY() - p.getY());
-
-	return p;
-}
-
-// Operator "-" um einen Punkt negieren zu kˆnnne
-Point Point::operator-()
-{
-	this->setX(this->getX()*(-1));
-	this->setY(this->getY()*(-1));
-
-	return *this;
+	pt.setX(stod(str.substr(xStart,xEnde)));
+	pt.setY(stod(str.substr(yStart,yEnde)));
 }
