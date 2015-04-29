@@ -35,7 +35,7 @@ unsigned int Fahrzeug::useVin(){			// Liefert eine neue Seriennummer und speiche
 	return ++lastVin;
 }
 
-static double getSummeKm(){return Fahrzeug::summeKm;}		// Getmethode liefert die gesamt KM zurück.
+double Fahrzeug::getSummeKm(){return summeKm;}		// Getmethode liefert die gesamt KM zurück.
 
 //void Fahrzeug::initVin(){
 //	// Statische Klassenvariablen
@@ -45,7 +45,9 @@ static double getSummeKm(){return Fahrzeug::summeKm;}		// Getmethode liefert die
 	// Konstruktoren + Destruktoren
 
 Fahrzeug::Fahrzeug(char *kennzeichen){
-	this->kz = MyString(kennzeichen);
+	
+	MyString meinString(kennzeichen); 
+	this->kz.append(meinString);
 	this->km = 0.0;
 	this->vin = useVin();
 }
@@ -58,5 +60,5 @@ Fahrzeug::~Fahrzeug(){
 
 std::ostream & operator<<(std::ostream &s, Fahrzeug &kfz){
 	return s << kfz.kz << " " << "VIN.: " << kfz.vin << " km = " << kfz.km << std::endl;
-	}
+};
 

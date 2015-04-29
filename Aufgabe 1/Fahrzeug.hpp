@@ -18,7 +18,7 @@ Die Klasse Fahrzeug.
 
 // Includes
 #include <ostream>
-#include <C:\Users\tommel\Documents\GitHub\OOS-HA3\Aufgabe 5\MyString.hpp>
+#include "MyString.hpp"
 
 class Fahrzeug{
 	
