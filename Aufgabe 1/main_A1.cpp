@@ -13,7 +13,7 @@ int main() {
 	cout << Fahrzeug::getSummeKm() << endl;
 	Fahrzeug *f3 = new Fahrzeug("RW - TG 6969");
 	f3->fahren(100.0);
-	cout << f3 << endl;
+	cout << *f3 << endl;
 	cout << Fahrzeug::getSummeKm() << endl;
 	delete(f3);
 	cout << Fahrzeug::getSummeKm() << endl;
