@@ -1,5 +1,6 @@
 #include "MyString.hpp"
-#include <stdio.h>
+//#include <stdio.h>
+#include <iostream>
 using namespace std;
 
 int main() {
@@ -17,5 +18,6 @@ int main() {
 	s.at(1) = 'X';
 	s[2] = 'Y';
 	cout << s << endl;
+	cin.get();
 return 0;
 }

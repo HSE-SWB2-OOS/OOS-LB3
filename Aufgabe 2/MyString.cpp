@@ -70,6 +70,8 @@ MyString::MyString(MyString const & str)
 	strCapacity = strSize;
 }
 
+
+
 // Destruktor
 MyString::~MyString()
 {
@@ -225,6 +227,10 @@ MyString MyString::operator= (string str)
 	return *this;
 }
 
+MyString MyString::operator=(const MyString &str){
+	return assign(MyString(str));
+}
+
 // Operator "==" um 2 Strings auf Gleichheit überprüfen zu können.
 bool MyString::operator== (MyString & str)
 {
@@ -236,10 +242,19 @@ bool MyString::operator== (MyString & str)
 	return result;
 }
 
+bool MyString::operator== (const MyString & str)const {
+	MyString tempRechts(str);
+	return ((MyString(this->c_str) == tempRechts));
+}
+
 // Operator "<<" für eine cout des Strings
 ostream & operator<< (ostream & o, MyString & str)
 {
 	return o<<str.c_str();
+}
+
+ostream & operator<< (ostream & o, const MyString & str){
+	return o << str.c_str();
 }
 
 char & MyString::operator[] (unsigned int index)
@@ -267,4 +282,4 @@ string MyString::remove(const string &str,const char c =' '){
 	} while (inputstring);
 
 	return returnStr;
-}
+};
