@@ -10,6 +10,10 @@ Aenderungshistorie:
 -------------------
 Durchgefuehrte Aenderung						|Autor		|Datum
 Operatoren "+", "=", "[]" und "==" hinzugefügt  |Geckeler	|22.04.2015
+
+Operatoren und Methoden geändert für Lab3 A2    |Tommel     |15.5.15
+Operatoren und Methoden für 'Const' Argumente überladen.
+
 -------------------------------------------------------
 Programmbeschreibung:
 Header der Klasse MyString mit der Erweiterung von Operatoren
@@ -58,11 +62,14 @@ public:
 	MyString operator= (MyString & str);
 	MyString operator= (string str);
 	MyString operator= (const MyString &);
+
+	//char& operator= (char);
+
 	bool operator== (MyString & str);
-	bool operator== (const MyString &)const;
+	bool operator== (const MyString &)const; // Hallo!
 	friend ostream & operator<< (ostream & o, MyString & str);
 	friend ostream & operator<< (ostream &, const MyString &);
-	char & operator[] (unsigned int index);
+	char & operator[] (unsigned int index); // Hallo!
 	static string remove(const string&, const char);										// Entfernt als default Leerzeichen, kann aber jedes belibige einzelne Zeichen aus einer Kette entfernen.
 	
 private:

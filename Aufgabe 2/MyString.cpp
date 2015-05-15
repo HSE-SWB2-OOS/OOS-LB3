@@ -12,6 +12,10 @@ Durchgefuehrte Aenderung						|Autor		|Datum
 Operatoren "+", "=", "[]" und "==" hinzugefügt  |Geckeler	|22.04.2015
 Überprufung ob angegbener Index OK ist bei Operator [] |Geckeler |23.04.2015 
 Operator "=" hinzugefügt um einen String dem MyString zuweisen zu Können und Kommentare hinzugefügt | Geckeler | 29.04.2015
+
+Operatoren und Methoden geändert für Lab3 A2    |Tommel     |15.5.15
+Operatoren und Methoden für 'Const' Argumente überladen.
+
 -------------------------------------------------------
 Programmbeschreibung:
 Klasse My String mit erweiterung von Operatoren
@@ -107,11 +111,12 @@ MyString & MyString::append(MyString & str)
 MyString & MyString::append(const MyString & str){
 	MyString temp(str);
 	this->append(temp);
+	return *this;
 }
 
 MyString & MyString::append(const MyString & str)const{
 	MyString temp(str);
-	this->append(temp);
+	return this->append(temp);
 }
 
 // Methode um einen andern MyString dem Opjekt MySting zuweisen zukönnen.
@@ -128,6 +133,7 @@ MyString & MyString::assign(MyString & str)
 MyString & MyString::assign(const MyString & str){
 	MyString temp(str);
 	this->assign(temp);
+	return *this;
 }
 
 // Methode um einem String dem Opjekt MySting zuweisen zukönnen.
@@ -189,7 +195,10 @@ bool MyString::empty()
 }
 
 bool MyString::empty() const {
-	return this->empty();
+	MyString temp(this->strPtr);
+	bool ergebnis = false;
+	if (temp.empty() == true) ergebnis = true;
+	return ergebnis;
 }
 
 // Methode um das Zeichen an der abgegebene Position abzufragen.
@@ -211,7 +220,8 @@ MyString MyString::operator+ (MyString & str){
 }
 
 MyString MyString::operator+ (const MyString & str)const{
-	return this->append(MyString(str));
+	MyString temp(this->strPtr);
+	return temp.append(MyString(str));
 }
 
 // Operator "=" um einen MyString zuweisen zu können. 
@@ -226,6 +236,11 @@ MyString MyString::operator= (string str)
 	this->assign(str);
 	return *this;
 }
+
+//char& MyString::operator= (char c){
+//	*this = c;
+//	return c;
+//}
 
 MyString MyString::operator=(const MyString &str){
 	return assign(MyString(str));
@@ -243,8 +258,12 @@ bool MyString::operator== (MyString & str)
 }
 
 bool MyString::operator== (const MyString & str)const {
-	MyString tempRechts(str);
-	return ((MyString(this->c_str) == tempRechts));
+	// return (MyString(this->strPtr) == MyString(str.strPtr)); // Funktioniert nicht weil...?
+
+	MyString tempLinks(this->strPtr);
+	MyString tempRechts(str.strPtr);
+	return (tempLinks == tempRechts);
+
 }
 
 // Operator "<<" für eine cout des Strings
