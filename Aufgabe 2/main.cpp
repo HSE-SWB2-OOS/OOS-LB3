@@ -16,7 +16,7 @@ int main() {
 	s = cs;
 	cout << cs << endl;
 	s.at(1) = 'X';
-	s[2] = 'Y';
+	s[2] = 'Y'; // Hallo
 	cout << s << endl;
 	cin.get();
 return 0;
