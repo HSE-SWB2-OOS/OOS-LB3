@@ -207,7 +207,7 @@ char & MyString::at(unsigned int i)
 	if (i > strSize)
 		return strPtr[0];
 	else
-		return strPtr[i-1];
+		return strPtr[i];
 }
 
 // Operator "+" um Strings miteinander zu verbinden zu können.
