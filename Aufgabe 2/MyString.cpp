@@ -278,12 +278,16 @@ ostream & operator<< (ostream & o, const MyString & str){
 
 char & MyString::operator[] (unsigned int index)
 {
-	char result = '\0';
+
+	return at(index);
+
+	// Ausgeklammert, wir wissen nicht mehr wir das verwendet haben.
+	/*char result = '\0';
 
 	if (index <= this->strSize)
 		result = this->strPtr[index];
 
-	return result;
+	return result;*/
 }
 
 // Die Methode entfernt alle Leehrzeichen aus einem String und gibt den bearbeiteten String zurück.
